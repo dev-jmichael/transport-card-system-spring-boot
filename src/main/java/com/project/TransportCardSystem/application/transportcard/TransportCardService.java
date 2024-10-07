@@ -27,33 +27,33 @@ public class TransportCardService {
     }
 
     public TransportCardResponse createTransportCard(CreateTransportCardRequest request) {
-        logger.info("Creating transport card for type: {}", request.cardType());
-        var type = TransportCardType.getTransportCardType(request.cardType().toUpperCase());
-        var card = TransportCard.builder()
-                .loadAmount(type.getInitialLoadAmount())
-                .yearsOfValidity(type.getYearsOfValidity())
-                .cardType(type)
+        logger.info("Creating transport card for card type: {}", request.cardType());
+        var transportCardType = TransportCardType.getTransportCardType(request.cardType().toUpperCase());
+        var transportCard = TransportCard.builder()
+                .loadAmount(transportCardType.getInitialLoadAmount())
+                .yearsOfValidity(transportCardType.getYearsOfValidity())
+                .cardType(transportCardType)
                 .build();
-        var savedCard = repository.save(card);
-        logger.info("Successfully created transport card with card number: {}", savedCard.getCardNumber());
+        var savedCard = repository.save(transportCard);
+        logger.info("Successfully created transport card with transportCard number: {}", savedCard.getCardNumber());
         return mapper.toDTO(savedCard);
     }
 
     public List<TransportCardResponse> getAllTransportCards() {
         logger.info("Fetching all transport cards...");
-        var cards = repository.findAll().stream()
+        var transportCards = repository.findAll().stream()
                 .map(mapper::toDTO)
                 .toList();
-        logger.info("Successfully retrieved {} transport cards", cards.size());
-        return cards;
+        logger.info("Successfully retrieved {} transport cards", transportCards.size());
+        return transportCards;
     }
 
     public TransportCardResponse getTransportCardById(Long cardNumber) {
-        logger.info("Fetching transport card with card number: {}", cardNumber);
-        var card = repository.findById(cardNumber)
+        logger.info("Fetching transport card with transportCard number: {}", cardNumber);
+        var transportCard = repository.findById(cardNumber)
                 .map(mapper::toDTO)
                 .orElseThrow(() -> new CardNotFoundException(cardNumber));
         logger.info("Transport card found with card number: {}", cardNumber);
-        return card;
+        return transportCard;
     }
 }

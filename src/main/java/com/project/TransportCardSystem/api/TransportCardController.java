@@ -24,10 +24,10 @@ import java.util.List;
 public class TransportCardController {
     private static final Logger logger = LoggerFactory.getLogger(TransportCardController.class);
 
-    private final TransportCardService transportCardService;
+    private final TransportCardService service;
 
-    public TransportCardController(TransportCardService transportCardService) {
-        this.transportCardService = transportCardService;
+    public TransportCardController(TransportCardService service) {
+        this.service = service;
     }
 
     @Operation(tags = "Transport Card", summary = "Create a new transport card", description = "Creates a new transport card and returns the card details.")
@@ -48,7 +48,7 @@ public class TransportCardController {
             @RequestBody @Valid CreateTransportCardRequest request
     ) {
         logger.info("Received request to create transport card for type: {}", request.cardType());
-        var response = transportCardService.createTransportCard(request);
+        var response = service.createTransportCard(request);
         logger.info("Successfully created transport card with card number: {}", response.cardNumber());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new RestApiResponse<>(true, response));
@@ -61,7 +61,7 @@ public class TransportCardController {
     @GetMapping("/transport-cards")
     public ResponseEntity<RestApiResponse<List<TransportCardResponse>>> getAllTransportCards() {
         logger.info("Received request to retrieve all transport cards");
-        var response = transportCardService.getAllTransportCards();
+        var response = service.getAllTransportCards();
         logger.info("Successfully retrieved {} transport cards", response.size());
         return ResponseEntity.ok(
                 new RestApiResponse<>(true, response)
@@ -76,7 +76,7 @@ public class TransportCardController {
     @GetMapping("/transport-cards/{cardNumber}")
     public ResponseEntity<RestApiResponse<TransportCardResponse>> getTransportCardById(@PathVariable Long cardNumber) {
         logger.info("Received request to retrieve transport card with card number: {}", cardNumber);
-        var response = transportCardService.getTransportCardById(cardNumber);
+        var response = service.getTransportCardById(cardNumber);
         logger.info("Successfully retrieved transport card with card number: {}", cardNumber);
         return ResponseEntity.ok(
                 new RestApiResponse<>(true, response)

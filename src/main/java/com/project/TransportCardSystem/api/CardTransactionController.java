@@ -29,7 +29,7 @@ public class CardTransactionController {
             @ApiResponse(responseCode = "402", description = "Insufficient balance exception.")
     })
     @PatchMapping("/transport-cards/{cardNumber}")
-    public ResponseEntity<String> deductFare(@PathVariable Long cardNumber) {
+    public ResponseEntity<String> processFareDeduction(@PathVariable Long cardNumber) {
         logger.info("Received request to process fare deduction for card number: {}", cardNumber);
         var response = service.processFareDeduction(cardNumber);
         logger.info("Successfully processed fare deduction for card number: {}", cardNumber);
