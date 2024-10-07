@@ -37,6 +37,7 @@ public enum TransportCardType {
 
     private static final Map<String, TransportCardType> CARD_TYPE_MAP = Arrays.stream(values())
             .collect(Collectors.toMap(type -> type.name().toLowerCase(), type -> type));
+
     public static TransportCardType getTransportCardType(String cardType) {
         return Optional.ofNullable(CARD_TYPE_MAP.get(cardType.toLowerCase()))
                 .orElseThrow(() -> new InvalidCardTypeException("Invalid card type: '" + cardType + "'."));

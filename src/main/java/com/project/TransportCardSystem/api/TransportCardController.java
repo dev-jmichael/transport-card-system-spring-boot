@@ -21,9 +21,11 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class TransportCardController {
     private final TransportCardService transportCardService;
+
     public TransportCardController(TransportCardService transportCardService) {
         this.transportCardService = transportCardService;
     }
+
     @Operation(tags = "Transport Card", summary = "Create a new transport card", description = "Creates a new transport card and returns the card details.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201"),
@@ -45,6 +47,7 @@ public class TransportCardController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new RestApiResponse<>(true, response));
     }
+
     @Operation(tags = "Transport Card", summary = "Retrieve all transport cards", description = "Retrieves all transport cards with its details.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200")
@@ -55,6 +58,7 @@ public class TransportCardController {
                 new RestApiResponse<>(true, transportCardService.getAllTransportCards())
         );
     }
+
     @Operation(tags = "Transport Card", summary = "Retrieve transport card by card number.", description = "Retrieves specific card details by card number.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200"),

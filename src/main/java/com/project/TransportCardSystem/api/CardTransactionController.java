@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class CardTransactionController {
     private final CardTransactionService service;
+
     public CardTransactionController(CardTransactionService service) {
         this.service = service;
     }
+
     @Operation(tags = "Card Transactions", summary = "Process fare deduction.", description = "Processes fare deduction via commuter's card number.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200"),

@@ -12,9 +12,11 @@ import java.math.BigDecimal;
 @Service
 public class CardTransactionService {
     private final TransportCardRepository repository;
+
     public CardTransactionService(TransportCardRepository repository) {
         this.repository = repository;
     }
+
     public String processFareDeduction(Long cardNumber) {
         var transportCard = repository.findById(cardNumber)
                 .orElseThrow(() -> new CardNotFoundException(cardNumber));

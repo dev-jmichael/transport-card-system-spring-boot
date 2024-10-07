@@ -14,11 +14,14 @@ import java.util.List;
 @Service
 public class TransportCardService {
     private final TransportCardRepository repository;
+
     private final TransportCardMapper mapper;
+
     public TransportCardService(TransportCardRepository repository, TransportCardMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
+
     public TransportCardResponse createTransportCard(CreateTransportCardRequest request) {
         var type = TransportCardType.getTransportCardType(request.cardType().toUpperCase());
         var card = TransportCard.builder()
@@ -28,11 +31,13 @@ public class TransportCardService {
                 .build();
         return mapper.toDTO(repository.save(card));
     }
+
     public List<TransportCardResponse> getAllTransportCards() {
         return repository.findAll().stream()
                 .map(mapper::toDTO)
                 .toList();
     }
+
     public TransportCardResponse getTransportCardById(Long cardNumber) {
         return repository.findById(cardNumber)
                 .map(mapper::toDTO)

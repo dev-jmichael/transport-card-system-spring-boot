@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(InvalidCardTypeException.class)
     public ResponseEntity<Map<String, Object>> handleInvalidCardTypeException(InvalidCardTypeException ex) {
         Map<String, Object> body = new HashMap<>();
@@ -32,6 +33,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(InsufficientBalanceException.class)
     public ResponseEntity<Map<String, Object>> handleInsufficientBalanceException(InsufficientBalanceException ex) {
         Map<String, Object> body = new HashMap<>();
@@ -41,6 +43,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.PAYMENT_REQUIRED);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, Object> body = new HashMap<>();
@@ -53,6 +56,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, Object>> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         Map<String, Object> body = new HashMap<>();
