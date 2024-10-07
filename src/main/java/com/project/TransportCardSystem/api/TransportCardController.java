@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class TransportCardController {
+    private static final Logger logger = LoggerFactory.getLogger(TransportCardController.class);
+
     private final TransportCardService transportCardService;
 
     public TransportCardController(TransportCardService transportCardService) {
@@ -43,7 +47,9 @@ public class TransportCardController {
             @Parameter(description = "Card creation request", required = true)
             @RequestBody @Valid CreateTransportCardRequest request
     ) {
+        logger.info("Received request to create transport card for type: {}", request.cardType());
         var response = transportCardService.createTransportCard(request);
+        logger.info("Successfully created transport card with card number: {}", response.cardNumber());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new RestApiResponse<>(true, response));
     }
@@ -54,8 +60,11 @@ public class TransportCardController {
     })
     @GetMapping("/transport-cards")
     public ResponseEntity<RestApiResponse<List<TransportCardResponse>>> getAllTransportCards() {
+        logger.info("Received request to retrieve all transport cards");
+        var response = transportCardService.getAllTransportCards();
+        logger.info("Successfully retrieved {} transport cards", response.size());
         return ResponseEntity.ok(
-                new RestApiResponse<>(true, transportCardService.getAllTransportCards())
+                new RestApiResponse<>(true, response)
         );
     }
 
@@ -66,8 +75,11 @@ public class TransportCardController {
     })
     @GetMapping("/transport-cards/{cardNumber}")
     public ResponseEntity<RestApiResponse<TransportCardResponse>> getTransportCardById(@PathVariable Long cardNumber) {
+        logger.info("Received request to retrieve transport card with card number: {}", cardNumber);
+        var response = transportCardService.getTransportCardById(cardNumber);
+        logger.info("Successfully retrieved transport card with card number: {}", cardNumber);
         return ResponseEntity.ok(
-                new RestApiResponse<>(true, transportCardService.getTransportCardById(cardNumber))
+                new RestApiResponse<>(true, response)
         );
     }
 }
